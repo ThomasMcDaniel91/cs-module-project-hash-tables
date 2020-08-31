@@ -23,6 +23,9 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
 
+        self.capacity = capacity
+        self.storage = [None] * self.capacity
+
 
     def get_num_slots(self):
         """
@@ -35,6 +38,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.capacity
 
 
     def get_load_factor(self):
@@ -44,6 +48,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        items = 0
+        for item in self.storage:
+            if item is not None:
+                items += 1
+        return items / self.capacity
 
 
     def fnv1(self, key):
@@ -63,7 +72,10 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
-
+        hash = 5381
+        for c in key:
+            hash = (hash * 33) + ord(c)
+        return hash
 
     def hash_index(self, key):
         """
@@ -83,6 +95,10 @@ class HashTable:
         """
         # Your code here
 
+        index = self.hash_index(key)
+
+        self.storage[index] = value
+
 
     def delete(self, key):
         """
@@ -93,6 +109,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+
+        if self.storage[index] == None:
+            print('Item not found.')
+            return
+        else:
+            self.storage[index] = None
+            return
 
 
     def get(self, key):
@@ -104,6 +128,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+
+        return self.storage[index]
+
+
 
 
     def resize(self, new_capacity):
@@ -114,6 +143,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # creating a new list to store the new values
+        new_storage = [None] * new_capacity
+        # changing the capacity to the new value
+        self.capacity = new_capacity
+        # grab the values from the old storage and put them in the new list
+        
+        # overwrite the self.storage to equal new list
+        self.storage = new_storage
 
 
 
